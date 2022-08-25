@@ -1,6 +1,15 @@
 call plug#begin("~/.vim/plugged")
+  " LSP
+  Plug 'neovim/nvim-lspconfig'
+  " LUA
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'saadparwaiz1/cmp_luasnip'
+  Plug 'L3MON4D3/LuaSnip'
+  Plug 'nvim-lua/plenary.nvim'
   " Theme
   Plug 'dracula/vim'
+
 
   " Language Client
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -17,6 +26,11 @@ call plug#begin("~/.vim/plugged")
   " File Search
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+
+  Plug 'Pocco81/AutoSave.nvim'
+
+  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 call plug#end()
 
 " Enable theming support
@@ -89,3 +103,16 @@ inoremap <silent><expr> <Tab>
       \ coc#refresh()
 
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+
+" Telescope fzf plugin
+lua << EOF
+
+require('telescope').load_extension('fzf')
+
+EOF
+
+" Telescope bindings
+ 
+nnoremap ,f <cmd>Telescope find_files<cr>
+nnoremap ,g <cmd>Telescope live_grep<cr>
