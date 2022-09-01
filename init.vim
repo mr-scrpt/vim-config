@@ -10,7 +10,6 @@ call plug#begin("~/.vim/plugged")
   " Theme
   Plug 'dracula/vim'
 
-
   " Language Client
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
@@ -28,16 +27,26 @@ call plug#begin("~/.vim/plugged")
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
 
-  Plug 'Pocco81/AutoSave.nvim'
+  " Plug 'Pocco81/auto-save.nvim'
 
   Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+
+  Plug 'bmatcuk/stylelint-lsp'
+  Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install --frozen-lockfile --production',
+  \ 'for': ['javascript', 'typescript', 'typescriptreact', 'javascriptreact', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+
 call plug#end()
 
 " Enable theming support
 if (has("termguicolors"))
  set termguicolors
 endif
+
+
+
+
 
 " Theme
 syntax enable
@@ -117,3 +126,24 @@ EOF
  
 nnoremap ,f <cmd>Telescope find_files<cr>
 nnoremap ,g <cmd>Telescope live_grep<cr>
+
+" Automatically format frontend files with prettier after file save
+let g:prettier#autoformat = 1
+let g:prettier#autoformat_require_pragma = 0
+
+" Disable quickfix window for prettier
+let g:prettier#quickfix_enabled = 0
+
+lua << EOF
+-- Stylelint format after save
+require'lspconfig'.stylelint_lsp.setup{
+settings = {
+    stylelintplus = {
+	--autoFixOnSave = true,
+        --autoFixOnFormat = false,
+    }
+  }
+}
+EOF
+
+
